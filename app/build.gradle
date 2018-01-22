@@ -1,0 +1,40 @@
+group 'org.tim'
+version '0.0.1'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.5.3.RELEASE'
+    }
+}
+
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    compile project(':api')
+
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-jooq'
+
+    compile 'org.jooq:jooq:3.10.4'
+
+    compile 'org.postgresql:postgresql:42.2.0'
+
+    // Swagger dependencies
+    compile 'io.springfox:springfox-swagger2:2.7.0'
+    compile 'io.springfox:springfox-swagger-ui:2.7.0'
+
+    compileOnly 'org.projectlombok:lombok:1.16.16'
+
+    testCompile 'junit:junit:4.12'
+}
+
+processResources {
+    filesMatching('**/*.properties') {
+        expand project.properties
+    }
+}
