@@ -1,33 +1,24 @@
-group 'com.gens'
+group 'com.tim'
 
 allprojects {
-    apply plugin: 'java'
-    apply plugin: 'maven-publish'
-    apply plugin: 'pmd'
-    apply plugin: 'findbugs'
+    buildscript {
+        repositories {
+            mavenLocal()
+            mavenCentral()
+        }
+    }
 
     repositories {
         mavenLocal()
         mavenCentral()
-        maven {
-            url 'https://artifactory.epam.com/artifactory/GENS-GENP/'
-            credentials {
-                username System.getenv('AUTO_GENS_GENP_CI_USER')
-                password System.getenv('AUTO_GENS_GENP_CI_PASSWORD')
-            }
-        }
     }
 
-    publishing {
-        repositories {
-            maven {
-                url 'https://artifactory.epam.com/artifactory/GENS-GENP/'
-                credentials {
-                    username System.getenv('AUTO_GENS_GENP_CI_USER')
-                    password System.getenv('AUTO_GENS_GENP_CI_PASSWORD')
-                }
-            }
-        }
+    apply plugin: 'java'
+    apply plugin: 'pmd'
+    apply plugin: 'findbugs'
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok:1.16.16'
     }
 
     pmd {

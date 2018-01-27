@@ -1,14 +1,2 @@
 group 'org.tim'
 version '0.0.1'
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-}
-
-dependencies {
-    compileOnly 'org.projectlombok:lombok:1.16.16'
-
-    testCompile 'junit:junit:4.12'
-}

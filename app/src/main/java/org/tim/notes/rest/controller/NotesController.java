@@ -14,7 +14,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/notes", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/notes")
 public class NotesController {
     @Autowired
     private NotesDao notesDao;

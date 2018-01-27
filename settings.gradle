@@ -2,4 +2,4 @@ rootProject.name = 'notes'
 
 include 'api'
 include 'app'
-include 'db'
+//include 'db'
