@@ -1,0 +1,200 @@
+{
+	"info": {
+		"name": "NoteCRUDTest",
+		"_postman_id": "a16e371b-84df-b302-a967-c228f94a917e",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Create note",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const body = JSON.parse(responseBody);",
+							"tests[\"Status code is 201\"] = responseCode.code === 201;",
+							"if (!_.every(tests, Boolean)) {",
+							"    console.log(body);",
+							"    postman.setNextRequest(null);",
+							"    return;",
+							"}",
+							"tests[\"Note ID is not empty\"] = body.id !== undefined;",
+							"postman.setEnvironmentVariable(\"noteId1\", body.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"title_1\",\n\t\"body\": \"body_1\",\n\t\"tags\": [ \"tag_1\", \"tag_2\", \"tag_3\"]\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/notes",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"notes"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "2. Fetch note",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const body = JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"if (!_.every(tests, Boolean)) {",
+							"    console.log(body);",
+							"    postman.setNextRequest(null);",
+							"    return;",
+							"}",
+							"tests[\"Note ID is correct\"] = body.id === postman.getEnvironmentVariable(\"noteId1\");",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/notes/{{noteId1}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"notes",
+						"{{noteId1}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "3. Update note",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const body = JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 201;",
+							"if (!_.every(tests, Boolean)) {",
+							"    console.log(body);",
+							"    postman.setNextRequest(null);",
+							"    return;",
+							"}",
+							"tests[\"Note ID is correct\"] = body.id === postman.getEnvironmentVariable(\"noteId1\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"title_1_updated\",\n\t\"body\": \"body_1_updated\",\n\t\"tags\": [ \"tag_1\", \"tag_4\"]\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/notes/{{noteId1}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"notes",
+						"{{noteId1}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "4. Fetch note",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const body = JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"if (!_.every(tests, Boolean)) {",
+							"    console.log(body);",
+							"    postman.setNextRequest(null);",
+							"    return;",
+							"}",
+							"tests[\"Note ID is correct\"] = body.id === postman.getEnvironmentVariable(\"noteId1\");",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/notes/{{noteId1}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"notes",
+						"{{noteId1}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
