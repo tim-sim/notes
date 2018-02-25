@@ -1,7 +1,7 @@
 package org.tim.notes.domain;
 
 import org.jooq.DSLContext;
-import org.jooq.Record2;
+import org.jooq.Record3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.tim.notes.domain.dao.UserDao;
@@ -21,14 +21,15 @@ public class NotesDao {
 
     public List<NoteEntity> getAll() {
         return jooq
-                .select(NOTES.ID, NOTES.TITLE)
+                .select(NOTES.ID, NOTES.TITLE, NOTES.DESCRIPTION)
                 .from(NOTES)
                 .fetch((rec) -> mapNote(rec));
     }
 
     public NoteEntity getById(UUID id) {
-        return jooq.select(NOTES.ID, NOTES.TITLE)
+        return jooq.select(NOTES.ID, NOTES.TITLE, NOTES.DESCRIPTION)
                 .from(NOTES)
+                .where(NOTES.ID.eq(id))
                 .fetchOne(rec -> mapNote(rec));
     }
 
@@ -39,7 +40,7 @@ public class NotesDao {
                 .build();
     }
 
-    private NoteEntity mapNote(Record2<UUID, String> rec) {
+    private NoteEntity mapNote(Record3<UUID, String, String> rec) {
         return NoteEntity.builder()
                 .id(rec.get(NOTES.ID))
                 .title(rec.get(NOTES.TITLE))

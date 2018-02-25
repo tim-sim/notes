@@ -3,6 +3,7 @@ package org.tim.notes.rest.dto;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -11,4 +12,5 @@ public class NoteDto {
     private UUID id;
     private String title;
     private String description;
+    private Set<String> tags;
 }

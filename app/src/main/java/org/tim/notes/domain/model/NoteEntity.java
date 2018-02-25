@@ -1,11 +1,14 @@
 package org.tim.notes.domain.model;
 
+import com.google.gson.Gson;
 import lombok.Builder;
 import lombok.Getter;
 import org.jooq.DSLContext;
 import org.tim.notes.data.jooq.tables.Notes;
+import org.tim.notes.data.jooq.tables.records.NotesRecord;
 import org.tim.notes.rest.dto.NoteDto;
 
+import java.util.Set;
 import java.util.UUID;
 
 import static org.tim.notes.data.jooq.tables.Notes.NOTES;
@@ -16,23 +19,31 @@ public class NoteEntity implements BaseDomainEntity {
     private UUID id;
     private String title;
     private String description;
+    private Set<String> tags;
     private UserEntity user;
 
     private DSLContext jooq;
 
     @Override
-    public void save() {
+    public NoteEntity save() {
         if (id == null) {
-            jooq.insertInto(NOTES)
-                    .columns(NOTES.TITLE, NOTES.DESCRIPTION, NOTES.USER_ID)
-                    .values(title, description, user.getId())
-            .execute();
+            this.id = jooq.insertInto(NOTES)
+                    .columns(NOTES.TITLE, NOTES.DESCRIPTION, NOTES.USER_ID, NOTES.DOC)
+                    .values(title, description, user.getId(), buildDoc())
+                    .returning(NOTES.ID)
+                    .fetchOne().getId();
         } else {
             jooq.update(NOTES)
                     .set(NOTES.TITLE, title)
                     .set(NOTES.DESCRIPTION, description)
                     .where(NOTES.ID.eq(id));
         }
+        return this;
+    }
+
+    private Object buildDoc() {
+        NoteDoc doc = NoteDoc.builder().tags(tags).build();
+        return new Gson().toJson(doc);
     }
 
     @Override
@@ -52,6 +63,7 @@ public class NoteEntity implements BaseDomainEntity {
     public NoteEntity fromDto(NoteDto dto) {
         this.title = dto.getTitle();
         this.description = dto.getDescription();
+        this.tags = dto.getTags();
         return this;
     }
 }
