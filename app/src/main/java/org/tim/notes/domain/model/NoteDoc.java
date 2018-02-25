@@ -10,5 +10,5 @@ import java.util.Set;
 @Setter
 @Builder
 public class NoteDoc {
-    private Set<String> tags;
+    private String body;
 }
